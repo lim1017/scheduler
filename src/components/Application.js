@@ -7,11 +7,9 @@ import {getAppointmentsForDay, getInterview, getInterviewersForDay} from "../hel
 
 const axios = require('axios').default;
 
-
-function bookInterview(id, interview) {
-  
-  console.log(id, interview);
-}
+//the data we need is from the FORM component
+//we pass bookinterview down in <Appointment> so we 
+//can call it passing in the data we need
 
 
 
@@ -28,11 +26,32 @@ export default function Application(props) {
   });
 
 
+  function bookInterview(id, interview) {
+  
+    console.log(id, interview);
+  
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+  
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+   
+    setState({
+      ...state,
+      appointments
+    });}
+  
+
+
   useEffect(() => {
     Promise.all([
-    axios.get("http://localhost:8000/api/days"),
-    axios.get("http://localhost:8000/api/appointments"),
-    axios.get("http://localhost:8000/api/interviewers")
+    axios.get("api/days"),
+    axios.get("api/appointments"),
+    axios.get("api/interviewers")
     ]).then((all) =>{
       const[days, appointments, interviewers]=all;
 
