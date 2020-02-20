@@ -8,7 +8,7 @@ import Empty from "./Empty";
 import Form from "components/Appointment/Form";
 import Status from "components/Appointment/Status";
 import Confirm from "components/Appointment/Confirm";
-
+import Error from "components/Appointment/Error";
 
 
 
@@ -25,6 +25,7 @@ const SAVING = "SAVING"
 const DELETE= "DELETE"
 const CONFIRM= "CONFIRM"
 const EDIT="EDIT"
+const ERROR="ERROR"
 
 
 
@@ -43,13 +44,16 @@ function Appointment(props) {
     props.bookInterview(props.id, interview)
     .then(()=>{
       transition(SHOW)
-    } )
+    })
+    .catch(()=> transition(ERROR))
   }
 
   function deletes(){
-    transition(DELETE)
+    transition(DELETE, true)
     props.cancelInterview(props.id)
     .then(()=>transition(EMPTY))
+    .catch(()=> transition(ERROR, true))
+
   }
 
   return (
@@ -105,7 +109,10 @@ function Appointment(props) {
       onConfirm={()=> deletes()}
       onCancel={()=>back()}
       />
+      )}
 
+      {mode === ERROR && (
+      <Error message='error occured' onClose={()=>back()}/>
       )}
     </article>
 

@@ -17,13 +17,6 @@ function Form(props) {
     props.onCancel()
   }
 
-  // function save(){
-  //   console.log('saved')
-  //   props.bookInterview(name, interviewerz)
-  //   props.onSave(name, interviewerz)
-
-  // }
-
   return (
     <main className="appointment__card appointment__card--create">
   <section className="appointment__card-left">

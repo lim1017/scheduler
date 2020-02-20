@@ -8,13 +8,15 @@ export default function useVisualMode(initialState){
 
 
   function transition(chgState, replace = false){
+
   
     setMode(chgState)  
-    setHistory(currentHistory => [...currentHistory, chgState])
   
     if (replace){
-        setHistory([initialState])
+    setHistory(currentHis => currentHis.slice(0, currentHis.length-1))
     }
+    setHistory(currentHistory => [...currentHistory, chgState])
+
   }
 
   function back() { 
@@ -22,8 +24,7 @@ export default function useVisualMode(initialState){
       setMode(initialState)
     }
 
-    if(history.length>1){
-
+    else if(history.length>1){
     setMode(() => history[history.length-2])
     setHistory(history => history.slice(0, history.length-1))
     

@@ -40,17 +40,11 @@ export default function Application(props) {
       setState({
         ...state,
         appointments
-      })
-        
-      return axios.put(`/api/appointments/${id}`,appointment)
-      
-    
+      })    
+    return axios.put(`/api/appointments/${id}`,appointment)
   }
   
   function cancelInterview(id){
-
-    console.log('in cancel interview')
-    console.log(id ,'app id')
 
       const appointment = {
         ...state.appointments[id],
@@ -61,17 +55,13 @@ export default function Application(props) {
         ...state.appointments,
         [id]: appointment
       };
-    
-      console.log(appointment, 'asdfasdfasdfasdfsadf')
-
-      setState({
-        ...state,
-        appointments
+   
+      return axios.delete(`/api/appointments/${id}`) .then(res=>{ 
+        setState({
+          ...state,
+          appointments
+        })
       })
-        
-      return axios.delete(`/api/appointments/${id}`)
-    
-    
   }
 
 
