@@ -26,32 +26,60 @@ export default function Application(props) {
   });
 
 
-  function bookInterview(id, interview) {
+  function bookInterview(id, interview) {  
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview }
+      };
+    
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+    
+      setState({
+        ...state,
+        appointments
+      })
+        
+      return axios.put(`/api/appointments/${id}`,appointment)
+      
+    
+  }
   
-    console.log(id, interview);
-  
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-  
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-   
-    setState({
-      ...state,
-      appointments
-    });}
-  
+  function cancelInterview(id){
+
+    console.log('in cancel interview')
+    console.log(id ,'app id')
+
+      const appointment = {
+        ...state.appointments[id],
+        interview: null
+      };
+    
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+    
+      console.log(appointment, 'asdfasdfasdfasdfsadf')
+
+      setState({
+        ...state,
+        appointments
+      })
+        
+      return axios.delete(`/api/appointments/${id}`)
+    
+    
+  }
 
 
   useEffect(() => {
     Promise.all([
-    axios.get("api/days"),
-    axios.get("api/appointments"),
-    axios.get("api/interviewers")
+    axios.get("/api/days"),
+    axios.get("/api/appointments"),
+    axios.get("/api/interviewers")
     ]).then((all) =>{
       const[days, appointments, interviewers]=all;
 
@@ -103,6 +131,7 @@ export default function Application(props) {
           interview={interview}
           interviewers={interviewzz} 
           bookInterview={bookInterview}
+          cancelInterview={cancelInterview}
           />
 
         )

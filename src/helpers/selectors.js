@@ -46,9 +46,6 @@ export function getInterviewersForDay (state, day){
   const appArr=[]
   let interviews4Day
 
-  console.log(state)
-  console.log(day)
-
   for (let element of state.days){
     if(element.name === day){
       interviews4Day=element.interviewers
@@ -64,7 +61,6 @@ export function getInterviewersForDay (state, day){
       appArr.push(state.interviewers[element])
     }
   })
-  console.log(appArr)
   return appArr
 }
 

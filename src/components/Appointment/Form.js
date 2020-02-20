@@ -33,7 +33,7 @@ function Form(props) {
         name="name"
         type="text"
         placeholder="Enter your Name"
-        value={name}
+        value={props.student}
         onChange={ event => {
           setName(event.target.value) 
          }}
@@ -49,7 +49,7 @@ function Form(props) {
   </section>
   <section className="appointment__card-right">
     <section className="appointment__actions">
-      <Button danger onClick={cancel}>Cancel</Button>
+      <Button danger onClick={()=>cancel()}>Cancel</Button>
       <Button confirm onClick={()=>props.onSave(name, interviewerz)} >Save</Button>
 
     </section>

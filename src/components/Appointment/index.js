@@ -6,6 +6,10 @@ import Header from "components/Appointment/Header"
 import Show from "components/Appointment/Show";
 import Empty from "./Empty";
 import Form from "components/Appointment/Form";
+import Status from "components/Appointment/Status";
+import Confirm from "components/Appointment/Confirm";
+
+
 
 
 
@@ -16,7 +20,12 @@ import  useVisualMode from "../../hooks/useVisualMode";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
-const CREATE= "CREATE"
+const CREATE = "CREATE"
+const SAVING = "SAVING"
+const DELETE= "DELETE"
+const CONFIRM= "CONFIRM"
+const EDIT="EDIT"
+
 
 
 function Appointment(props) {
@@ -30,10 +39,18 @@ function Appointment(props) {
       student: name,
       interviewer
     };
+    transition(SAVING)
     props.bookInterview(props.id, interview)
-    transition(SHOW)
+    .then(()=>{
+      transition(SHOW)
+    } )
   }
 
+  function deletes(){
+    transition(DELETE)
+    props.cancelInterview(props.id)
+    .then(()=>transition(EMPTY))
+  }
 
   return (
     <article className="appointment">
@@ -44,8 +61,12 @@ function Appointment(props) {
       
       {mode === SHOW && (
       <Show
+        appId={props.key}
         student={props.interview.student}
         interviewer={props.interview.interviewer}
+        onDelete={()=>transition(CONFIRM)}
+        onEdit={()=>transition(EDIT)}
+
       />
       )}
 
@@ -55,9 +76,36 @@ function Appointment(props) {
           interviewers={props.interviewers}
           onCancel={() =>back()}
           onSave={save}
-
-
         />
+      )}
+        
+      {mode === EDIT && (
+        <Form
+          bookInterview={props.bookInterview}
+          interviewers={props.interviewers}
+          onCancel={() =>back()}
+          onSave={save}
+          student={props.interview.student}
+          interviewer={props.interview.interviewer.id}
+  
+        />
+      )}
+
+      {mode === SAVING && (
+      <Status message="Saving..." />
+      )}
+
+      {mode === DELETE && (
+      <Status message="Deleting..." />
+      )}
+
+      {mode === CONFIRM && (
+      <Confirm 
+      message="Are you sure you want to delete?" 
+      onConfirm={()=> deletes()}
+      onCancel={()=>back()}
+      />
+
       )}
     </article>
 
