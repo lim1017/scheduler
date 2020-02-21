@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 const axios = require('axios').default;
 
 
-export default function useApplicationDaya(initialState){
+export default function useApplicationData(initialState){
 
 const setDay = day => setState({ ...state, day });
 

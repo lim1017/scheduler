@@ -45,7 +45,8 @@ export function getInterview(state, interview){
 export function getInterviewersForDay (state, day){
   const appArr=[]
   let interviews4Day
-
+  
+  
   for (let element of state.days){
     if(element.name === day){
       interviews4Day=element.interviewers

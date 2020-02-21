@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useReducer, useEffect } from "react";
 
 import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
 import {getAppointmentsForDay, getInterview, getInterviewersForDay} from "../helpers/selectors"
 
-import  useApplicationData from "../hooks/useApplicationData";
+// import  useApplicationData from "../hooks/useApplicationData";
+import  useReducerTest from "../hooks/useReducerTest";
+
 
 
 const axios = require('axios').default;
@@ -19,9 +21,8 @@ export default function Application(props) {
     setDay,
     bookInterview,
     cancelInterview
-  } = useApplicationData();
+  } = useReducerTest();
   
-
 
   const interviewzz = getInterviewersForDay(state, state.day);
   const dayAppointments=getAppointmentsForDay(state, state.day)
@@ -36,6 +37,7 @@ export default function Application(props) {
 />
 <hr className="sidebar__separator sidebar--centered" />
 <nav className="sidebar__menu">
+
 <DayList
   days={state.days}
   dayz={state.day}
