@@ -5,79 +5,22 @@ import DayList from "components/DayList";
 import Appointment from "components/Appointment";
 import {getAppointmentsForDay, getInterview, getInterviewersForDay} from "../helpers/selectors"
 
+import  useApplicationData from "../hooks/useApplicationData";
+
+
 const axios = require('axios').default;
 
-//the data we need is from the FORM component
-//we pass bookinterview down in <Appointment> so we 
-//can call it passing in the data we need
 
 export default function Application(props) {
 
 
-
-  const [state, setState] = useState({
-    day: "Monday", //for selected day
-    days: [],  //for db data
-    appointments: {},
-    interviewers:{}
-  });
-
-  const setDay = day => setState({ ...state, day });
-
-
-  function bookInterview(id, interview) {  
-      const appointment = {
-        ...state.appointments[id],
-        interview: { ...interview }
-      };
-    
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
-    
-    return axios.put(`/api/appointments/${id}`,appointment)
-    .then(res =>{   
-      setState({
-      ...state,
-      appointments
-      })   
-    })
-  }
+  const {
+    state,
+    setDay,
+    bookInterview,
+    cancelInterview
+  } = useApplicationData();
   
-  function cancelInterview(id){
-
-      const appointment = {
-        ...state.appointments[id],
-        interview: null
-      };
-    
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
-   
-      return axios.delete(`/api/appointments/${id}`) .then(res=>{ 
-        setState({
-          ...state,
-          appointments
-        })
-      })
-  }
-
-
-  useEffect(() => {
-    Promise.all([
-    axios.get("/api/days"),
-    axios.get("/api/appointments"),
-    axios.get("/api/interviewers")
-    ]).then((all) =>{
-      const[days, appointments, interviewers]=all;
-
-      setState({...state, days:days.data, appointments:appointments.data, interviewers:interviewers.data})        
-    })
-    
-  }, []);
 
 
   const interviewzz = getInterviewersForDay(state, state.day);
