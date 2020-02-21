@@ -11,12 +11,9 @@ const axios = require('axios').default;
 //we pass bookinterview down in <Appointment> so we 
 //can call it passing in the data we need
 
-
-
 export default function Application(props) {
 
 
-  const setDay = day => setState({ ...state, day });
 
   const [state, setState] = useState({
     day: "Monday", //for selected day
@@ -24,6 +21,8 @@ export default function Application(props) {
     appointments: {},
     interviewers:{}
   });
+
+  const setDay = day => setState({ ...state, day });
 
 
   function bookInterview(id, interview) {  
@@ -37,11 +36,13 @@ export default function Application(props) {
         [id]: appointment
       };
     
-      setState({
-        ...state,
-        appointments
-      })    
     return axios.put(`/api/appointments/${id}`,appointment)
+    .then(res =>{   
+      setState({
+      ...state,
+      appointments
+      })   
+    })
   }
   
   function cancelInterview(id){

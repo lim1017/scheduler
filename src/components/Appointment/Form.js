@@ -26,7 +26,7 @@ function Form(props) {
         name="name"
         type="text"
         placeholder="Enter your Name"
-        value={props.student}
+        value={name}
         onChange={ event => {
           setName(event.target.value) 
          }}

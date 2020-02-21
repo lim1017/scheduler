@@ -9,12 +9,7 @@ import Form from "components/Appointment/Form";
 import Status from "components/Appointment/Status";
 import Confirm from "components/Appointment/Confirm";
 import Error from "components/Appointment/Error";
-
-
-
-
 import  useVisualMode from "../../hooks/useVisualMode";
-
 
 
 
@@ -28,7 +23,6 @@ const EDIT="EDIT"
 const ERROR="ERROR"
 
 
-
 function Appointment(props) {
 
   const { mode, transition, back } = useVisualMode(
@@ -40,12 +34,12 @@ function Appointment(props) {
       student: name,
       interviewer
     };
-    transition(SAVING)
+    transition(SAVING, true)
     props.bookInterview(props.id, interview)
     .then(()=>{
       transition(SHOW)
     })
-    .catch(()=> transition(ERROR))
+    .catch(()=> transition(ERROR, true))
   }
 
   function deletes(){
@@ -89,9 +83,8 @@ function Appointment(props) {
           interviewers={props.interviewers}
           onCancel={() =>back()}
           onSave={save}
-          student={props.interview.student}
+          name={props.interview.student}
           interviewer={props.interview.interviewer.id}
-  
         />
       )}
 
