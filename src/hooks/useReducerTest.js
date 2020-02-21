@@ -1,4 +1,7 @@
 import React, { useReducer, useEffect } from "react";
+import DayList from "components/DayList";
+import DayListItem from "components/DayListItem";
+
 
 const axios = require('axios').default;
 
@@ -9,6 +12,8 @@ export default function useReducerTest(){
 const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
+const SET_DAYLIST = "SET_DAYLIST";
+
 
 const [state, dispatch] = useReducer(reducerz, {
   day: "Monday", //for selected day
@@ -32,6 +37,17 @@ useEffect(() => {
   })
   
 }, []);
+
+useEffect(() => {
+  
+  axios.get("/api/days")
+  .then((days) =>{
+    
+    dispatch({type:SET_DAYLIST, 
+      value: {days: days.data}})        
+  })
+  
+}, [state.appointments]);
 
 
 function bookInterview(id, interview) {  
@@ -84,7 +100,8 @@ function reducerz(state, action) {
       return {...state, days: action.value.days, appointments:action.value.appointments, interviewers:action.value.interviewers}
     case SET_INTERVIEW: 
       return {...state, appointments: action.value.appointments} 
-    
+    case SET_DAYLIST: 
+      return {...state, days: action.value.days} 
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
