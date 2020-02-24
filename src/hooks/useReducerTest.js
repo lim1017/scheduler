@@ -1,7 +1,4 @@
 import React, { useReducer, useEffect } from "react";
-import DayList from "components/DayList";
-import DayListItem from "components/DayListItem";
-
 
 const axios = require('axios').default;
 
@@ -26,6 +23,7 @@ const setDay = day => dispatch({type:SET_DAY, value:day });
 
 
 useEffect(() => {
+
   Promise.all([
   axios.get("/api/days"),
   axios.get("/api/appointments"),
@@ -35,8 +33,35 @@ useEffect(() => {
     dispatch({type:SET_APPLICATION_DATA, 
       value: {days: days.data, appointments: appointments.data, interviewers: interviewers.data}})        
   })
-  
 }, []);
+
+// useEffect(()=>{
+//   const webSocketss = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+ 
+
+//   webSocketss.onmessage = function (event) {
+//     let jsonMsg=JSON.parse(event.data)
+//     let interview=jsonMsg.interview
+//     let id=jsonMsg.id
+//     console.log(jsonMsg, 'from websocket')
+//     console.log(jsonMsg.id,'asdfasdf')
+
+//     const appointment = {
+//       ...state.appointments[id],
+//       interview: { ...interview }
+//     };
+  
+//     const appointments = {
+//       ...state.appointments,
+//       [id]: appointment
+//     };
+   
+//     console.log(appointment)
+//     dispatch({type:jsonMsg.type, value:{appointments}})
+//   }
+
+//   return ()=> webSocketss.close()
+// },[]);
 
 useEffect(() => {
   
@@ -50,7 +75,9 @@ useEffect(() => {
 }, [state.appointments]);
 
 
+
 function bookInterview(id, interview) {  
+
   const appointment = {
     ...state.appointments[id],
     interview: { ...interview }
@@ -91,7 +118,6 @@ function cancelInterview(id){
 
 function reducerz(state, action) {
 
-  console.log(action)
 
   switch (action.type) {
     case SET_DAY:

@@ -1,5 +1,6 @@
 import "components/Appointment/styles.scss";
-import React, { Fragment } from 'react'
+import React from 'react'
+
 
 
 import Header from "components/Appointment/Header"
@@ -10,7 +11,7 @@ import Status from "components/Appointment/Status";
 import Confirm from "components/Appointment/Confirm";
 import Error from "components/Appointment/Error";
 
-import  useVisualMode from "../../hooks/useVisualMode";
+import  {useVisualMode} from "../../hooks/useVisualMode";
 
 
 
@@ -31,6 +32,14 @@ function Appointment(props) {
   );
 
   function save(name, interviewer) {
+    console.log('saveedd', name)
+
+    if (name===undefined){
+      console.log('student name cannot be blank')
+      transition(CREATE)
+      return
+    }
+
     const interview = {
       student: name,
       interviewer

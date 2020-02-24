@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React from "react";
 
 import "components/Application.scss";
 import DayList from "components/DayList";
@@ -7,10 +7,6 @@ import {getAppointmentsForDay, getInterview, getInterviewersForDay} from "../hel
 
 // import  useApplicationData from "../hooks/useApplicationData";
 import  useReducerTest from "../hooks/useReducerTest";
-
-
-
-const axios = require('axios').default;
 
 
 export default function Application(props) {

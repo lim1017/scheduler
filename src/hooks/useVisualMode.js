@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 
-export default function useVisualMode(initialState){
+export function useVisualMode(initialState){
 
   const [mode, setMode] = useState(initialState);
   const [history, setHistory] = useState([initialState]);
@@ -23,6 +23,8 @@ export default function useVisualMode(initialState){
     if(history.length ===1){
       setMode(initialState)
     }
+
+  
 
     else if(history.length>1){
     setMode(() => history[history.length-2])
