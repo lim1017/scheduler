@@ -30,8 +30,8 @@ return(
 }
 
 InterviewerList.propTypes = {
-  setInterviewer: PropTypes.number,
-  onChange: PropTypes.func.isRequired
+  interviewer: PropTypes.number,
+  setInterviewer: PropTypes.func.isRequired
 };
 
 export default InterviewerList

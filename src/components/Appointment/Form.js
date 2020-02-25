@@ -25,10 +25,11 @@ function Form(props) {
       setError("Student name cannot be blank");
       return;
     }
-  
+    setError("");
+
     props.onSave(name, interviewerz);
   }
-
+  
   return (
     <main className="appointment__card appointment__card--create">
   <section className="appointment__card-left">

@@ -88,8 +88,8 @@ function bookInterview(id, interview) {
     [id]: appointment
   };
 
-return axios.put(`/api/appointments/${id}`,appointment)
-.then(res =>{   
+return axios.put(`/api/appointments/${id}`,appointment).then(res =>{   
+  console.log(res, 'fasdfasdfasdfasdfasdfasdfasdfasdfsadf')
   dispatch({ type: SET_INTERVIEW,
   value: {appointments}
   })   
