@@ -65,6 +65,7 @@ useEffect(() => {
 //   return ()=> webSocketss.close()
 // },[]);
 
+
 // useEffect(() => {
   
 //   axios.get("/api/days")
@@ -78,7 +79,7 @@ useEffect(() => {
 
 
 
-function bookInterview(id, interview) {  
+function bookInterview(id, interview, create) {  
   const day = Math.floor((id - 1)/5)
 
   const appointment = {
@@ -96,11 +97,11 @@ return axios.put(`/api/appointments/${id}`,appointment)
   dispatch({type:SET_INTERVIEW,
   value: {appointments},
   })
-
-  dispatch({type:REMOVE_SPOT,
-  value:day
-  })
-     
+  if(create){
+    dispatch({type:REMOVE_SPOT,
+    value:day
+    })
+  }   
 })
 }
 
@@ -131,7 +132,6 @@ function cancelInterview(id){
 
 function reducerz(state, action) {
 
-  const newDay= state.days
 
   switch (action.type) {
     case SET_DAY:
@@ -143,11 +143,11 @@ function reducerz(state, action) {
     case SET_DAYLIST: 
       return {...state, days: action.value.days} 
     case ADD_SPOT:
-      newDay[action.value].spots++
-      return {...state, days:newDay}
+      return {...state, days: state.days.map((day, i) => i === action.value ? {...day, spots: day.spots + 1 } : day)
+    }
     case REMOVE_SPOT:
-      newDay[action.value].spots--
-      return {...state, days:newDay}
+      return {...state, days: state.days.map((day, i) => i === action.value ? {...day, spots: day.spots - 1 } : day)
+    }
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`

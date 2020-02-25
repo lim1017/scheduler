@@ -93,7 +93,17 @@ export default {
         });
       }
     
-  })
+  }),
 
+  delete: jest.fn(url => {
+    
+    if (url.startsWith("/api/appointments/")) {
+      return Promise.resolve({
+        status: 204,
+        statusText: "No Content",
+        data: { status: 204, statusText: "No Content" }
+      });
+    }
+  })
 
 }

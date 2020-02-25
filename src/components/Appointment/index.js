@@ -32,7 +32,8 @@ function Appointment(props) {
   );
 
   function save(name, interviewer) {
-    console.log('saveedd', name)
+    let saveMode;
+    mode === CREATE ? saveMode=true : saveMode=false 
 
     if (name===undefined){
       console.log('student name cannot be blank')
@@ -45,7 +46,7 @@ function Appointment(props) {
       interviewer
     };
     transition(SAVING, true)
-    props.bookInterview(props.id, interview)
+    props.bookInterview(props.id, interview, saveMode)
     .then(()=>{
       transition(SHOW)
     })
@@ -64,7 +65,8 @@ function Appointment(props) {
     <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
 
-      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)}  />}
+      {mode === EMPTY && <Empty data-testid="empty"
+ onAdd={() => transition(CREATE)}  />}
       
       
       {mode === SHOW && (
