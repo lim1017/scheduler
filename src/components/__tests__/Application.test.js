@@ -120,7 +120,6 @@ it("loads data, edits an interview and keeps the spots remaining for Monday the 
 
   fireEvent.click(queryByAltText(appointment, "Edit"));
 
-  console.log(prettyDOM(appointment))
   // 4. check that save button is shown
   expect(
     getByText(appointment, "Save")
@@ -142,7 +141,6 @@ it("loads data, edits an interview and keeps the spots remaining for Monday the 
 
   expect(getByText(appointment, "Lydia Miller-Jones")).toBeInTheDocument()
 
-  console.log(prettyDOM(appointment))
 
 
   // 9. confirm spots stays the same
@@ -152,6 +150,102 @@ it("loads data, edits an interview and keeps the spots remaining for Monday the 
 })
 
 
+it("shows the delete error when failing to delete an appointment", async () =>  {
+  
+  axios.delete.mockRejectedValueOnce();
+
+  // 1. Render the Application.
+  const { container } = render(<Application />);
+
+  // 2. Wait until the text "Archie Cohen" is displayed.
+  await waitForElement(() => getByText(container, "Archie Cohen"));
+  
+  const day = getAllByTestId(container, "day").find(day =>
+    queryByText(day, "Monday")
+  );
+
+  // 3. Click the "Delete" button on the booked appointment.
+  const appointment = getAllByTestId(container, "appointment").find(
+    appointment => queryByText(appointment, "Archie Cohen")
+  );
+
+  console.log(prettyDOM(appointment))
+
+
+  fireEvent.click(queryByAltText(appointment, "Delete"));
+
+  // 4. Check that the confirmation message is shown.
+  expect(
+    getByText(appointment, "Are you sure you want to delete?")
+  ).toBeInTheDocument();
+
+  // 5. Click the "Confirm" button on the confirmation.
+  fireEvent.click(queryByText(appointment, "Confirm"));
+
+  // 6. Check that the element with the text "Deleting" is displayed.
+  expect(getByText(appointment, "Deleting...")).toBeInTheDocument();
+
+  //wait for deleting to be removed
+  await waitForElementToBeRemoved(() => getByText(appointment, "Deleting..."));
+
+  console.log(prettyDOM(appointment))
+
+
+  // check for error
+  expect(getByText(appointment, "error occured")).toBeInTheDocument();
+
+});
+
+it("shows the save error when failing to save an appointment", async () =>  {
+  
+  axios.put.mockRejectedValueOnce();
+
+  // 1. Render the Application.
+  const { container } = render(<Application />);
+
+
+  // 2. find existing interview.
+  await waitForElement(() => getByText(container, "Archie Cohen"));
+
+  const day = getAllByTestId(container, "day").find(day =>
+    queryByText(day, "Monday")
+  );
+
+  // 3. Click the "edit" button on the booked appointment.
+  const appointment = getAllByTestId(container, "appointment").find(
+    appointment => queryByText(appointment, "Archie Cohen")
+  );
+
+  fireEvent.click(queryByAltText(appointment, "Edit"));
+
+  // 4. check that save button is shown
+  expect(
+    getByText(appointment, "Save")
+  ).toBeInTheDocument();
+
+  // 5. type in info, select first interviewer
+
+  fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
+    target: { value: "Lydia Miller-Jones" }
+  });
+  // 6. hit save
+  fireEvent.click(getByText(appointment, "Save"));
+
+  // 7. confirm saving... message
+  expect(getByText(appointment, "Saving...")).toBeInTheDocument();
+  // 8. confirm student name appears on page
+
+  await waitForElementToBeRemoved(() => getByText(appointment, "Saving..."));
+
+
+  console.log(prettyDOM(appointment))
+
+
+  // check for error
+  expect(getByText(appointment, "error occured")).toBeInTheDocument();
+
+  
+});
 
 
 
