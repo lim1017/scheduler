@@ -11,7 +11,8 @@ function DayList(props){
       name={day.name} 
       spots={day.spots} 
       selected={day.name === props.dayz}
-      setDay={props.setDay}/>
+      setDay={props.setDay}
+      />
   }) : [];
 
   return(

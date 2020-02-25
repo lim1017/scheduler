@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, cleanup, waitForElement, fireEvent, getByText, prettyDOM, getAllByTestId, getByAltText,getByPlaceholderText } from "@testing-library/react";
+import { render, cleanup, waitForElement, fireEvent, getByText, prettyDOM, getAllByTestId, getByAltText,getByPlaceholderText, queryByText } from "@testing-library/react";
 
 import Application from "components/Application";
 
@@ -45,7 +45,21 @@ it("loads data, books an interview and reduces the spots remaining for Monday by
   
   expect(getByText(appointment, "Saving...")).toBeInTheDocument();
   
+  await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
+
   console.log(prettyDOM(appointment));
+
+  const day = getAllByTestId(container, "day").find(day =>
+    queryByText(day, "Monday")
+
+
+  );
+
+  await waitForElement(() => getByText(day, "no spots remaining"));
+
+  expect(getByText(day, "no spots remaining")).toBeInTheDocument();
+
+  console.log(prettyDOM(day));  
   
 }); 
    
@@ -53,8 +67,5 @@ it("loads data, books an interview and reduces the spots remaining for Monday by
 
 });
  
-
-
-
 
 

@@ -10,6 +10,8 @@ const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
 const SET_DAYLIST = "SET_DAYLIST";
+const ADD_SPOT="ADD_SPOT";
+const REMOVE_SPOT="REMOVE_SPOT"
 
 
 const [state, dispatch] = useReducer(reducerz, {
@@ -63,20 +65,21 @@ useEffect(() => {
 //   return ()=> webSocketss.close()
 // },[]);
 
-useEffect(() => {
+// useEffect(() => {
   
-  axios.get("/api/days")
-  .then((days) =>{
+//   axios.get("/api/days")
+//   .then((days) =>{
     
-    dispatch({type:SET_DAYLIST, 
-      value: {days: days.data}})        
-  })
+//     dispatch({type:SET_DAYLIST, 
+//       value: {days: days.data}})        
+//   })
   
-}, [state.appointments]);
+// }, [state.appointments]);
 
 
 
 function bookInterview(id, interview) {  
+  const day = Math.floor((id - 1)/5)
 
   const appointment = {
     ...state.appointments[id],
@@ -88,15 +91,21 @@ function bookInterview(id, interview) {
     [id]: appointment
   };
 
-return axios.put(`/api/appointments/${id}`,appointment).then(res =>{   
-  console.log(res, 'fasdfasdfasdfasdfasdfasdfasdfasdfsadf')
-  dispatch({ type: SET_INTERVIEW,
-  value: {appointments}
-  })   
+return axios.put(`/api/appointments/${id}`,appointment)
+.then(() =>{   
+  dispatch({type:SET_INTERVIEW,
+  value: {appointments},
+  })
+
+  dispatch({type:REMOVE_SPOT,
+  value:day
+  })
+     
 })
 }
 
 function cancelInterview(id){
+  const day = Math.floor((id - 1)/5)
 
   const appointment = {
     ...state.appointments[id],
@@ -111,13 +120,18 @@ function cancelInterview(id){
   return axios.delete(`/api/appointments/${id}`) .then(res=>{ 
     dispatch({ type: SET_INTERVIEW,
       value: {appointments}
-      })  
+      })
+    
+    dispatch({type:ADD_SPOT,
+      value:day
+    })
   })
 }
 
 
 function reducerz(state, action) {
 
+  const newDay= state.days
 
   switch (action.type) {
     case SET_DAY:
@@ -128,6 +142,12 @@ function reducerz(state, action) {
       return {...state, appointments: action.value.appointments} 
     case SET_DAYLIST: 
       return {...state, days: action.value.days} 
+    case ADD_SPOT:
+      newDay[action.value].spots++
+      return {...state, days:newDay}
+    case REMOVE_SPOT:
+      newDay[action.value].spots--
+      return {...state, days:newDay}
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
