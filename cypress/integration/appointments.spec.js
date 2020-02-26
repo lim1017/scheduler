@@ -38,7 +38,6 @@ describe("Appointments", () => {
   
   });
 
-    
 
   it("Delete an appointment", () => {
     cy.get("[alt=Delete]")
