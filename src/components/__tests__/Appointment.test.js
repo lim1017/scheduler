@@ -15,8 +15,6 @@ import { render } from "@testing-library/react";
 import Application from "components/Application";
 import Appointment from "components/Appointment";
 
-
-
 /*
   A test that renders a React Component
 */
