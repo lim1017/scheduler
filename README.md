@@ -11,9 +11,9 @@ Tested with Jest & Cypress
 
 ## Final Product
 
-!["Desktop View 1"](https://github.com/lim1017/tweeter/blob/master/docs/DesktopView1.png?raw=true)
-!["Desktop View 2"](https://github.com/lim1017/tweeter/blob/master/docs/DesktopView2.png?raw=true)
-!["Mobile View"](https://github.com/lim1017/tweeter/blob/master/docs/MobileView.png?raw=true)
+!["View 1"](https://github.com/lim1017/scheduler/blob/master/docs/img1.png?raw=true)
+!["View 2"](https://github.com/lim1017/scheduler/blob/master/docs/img2.png?raw=true)
+!["View 3"](https://github.com/lim1017/scheduler/blob/master/docs/img3.png?raw=true)
 
 
 
