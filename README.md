@@ -7,7 +7,7 @@ Please Allow up to 30 seconds to load
 
 # Scheduler Project
 A React application that allows users to book and cancel interviews.
-Tested with Jest & Cypress
+Testing with Jest & Cypress
 
 ## Final Product
 
