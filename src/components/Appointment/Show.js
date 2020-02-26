@@ -1,8 +1,6 @@
 import React from "react";
 
 function Show(props) {
-
-
   return (
     <main className="appointment__card appointment__card--show">
       <section className="appointment__card-left">
@@ -21,7 +19,7 @@ function Show(props) {
             alt="Edit"
           />
           <img
-            onClick={()=>props.onDelete()}
+            onClick={() => props.onDelete()}
             className="appointment__actions-button"
             src="images/trash.png"
             alt="Delete"
