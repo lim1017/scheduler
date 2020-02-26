@@ -36,7 +36,6 @@ function Appointment(props) {
     mode === CREATE ? saveMode=true : saveMode=false 
 
     if (name===undefined){
-      console.log('student name cannot be blank')
       transition(CREATE)
       return
     }
